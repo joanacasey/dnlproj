@@ -37,7 +37,9 @@ var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v10',
     center: [-98, 38],
-    zoom: 3.5
+    zoom: 3.5,
+    maxZoom: 12, 
+    minZoom: 3.5 
 });
 
 //var mypolydata = ["ct_all_polys_4326_06", "ct_all_polys_4326_div_8"];
@@ -48,7 +50,7 @@ var mypolydata = ["ct_all_polys_4326_06", "ct_all_polys_4326_34", "ct_all_polys_
 		  "ct_all_polys_4326_26", "ct_all_polys_4326_39", "ct_all_polys_4326_div_2", "ct_all_polys_4326_div_6",	"ct_all_pts_4326" ];
 
 map.on('load', function() {
-
+   // ADD CENSUS TRACTS AS POINTS
     // Add a geojson point source.
     map.addSource('ct_points', {
         "type": "geojson",
@@ -92,7 +94,7 @@ map.on('load', function() {
           "type": "fill",
           "source": datanam,
           "minzoom": 10,
-          "maxzoom": 12,
+          "maxzoom": 12.5,
           "paint": poly_paint
        }, 'waterway-label');
    }
