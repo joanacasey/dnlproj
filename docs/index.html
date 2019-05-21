@@ -102,8 +102,12 @@ map.on('load', function() {
 	'maxzoom': 10,
         'paint': {
             // Size circle radius by earthquake magnitude and zoom level
-            "circle-radius": 3,
-            "circle-opacity": 0.5,
+            //"circle-radius": 4,
+            "circle-radius": {
+		'base': 5,
+		'stops': [[4,5],[10,3]]
+            },
+            "circle-opacity": 0.65,
             "circle-color": {
                 property: 'cat',
                 type: 'categorical',
