@@ -143,10 +143,10 @@ for (i in udiv){
 #  upload the output mbtiles file to mapbox
 #
 # counties
-# These were just uploated into tileset on mapbox
+# These were just uploaded into tileset on mapbox - no need to use tippecanoe
 
-# In html
-#  reference the vector tileset created from the mbtiles in the html file
+# In webmap html file be sure to:
+#  Reference the mapbox vector tileset created from the mbtiles in the html file
 
 
 ########################################
