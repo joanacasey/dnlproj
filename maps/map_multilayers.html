@@ -53,6 +53,7 @@ map.on('load', function() {
    // ADD CENSUS TRACTS AS POINTS
 
     //ADD Point buffers for far zoom
+/*
     map.addSource('ct_point_buffers', {
         "type": "geojson",
         "data": "https://raw.githubusercontent.com/dlab-geo/dnlproj/master/geofiles/ctbuf10k_all_pts_4326.geojson"
@@ -74,6 +75,7 @@ map.on('load', function() {
 	}
     }
    });
+*/
 
     // ADD POINTs for each census tract
     map.addSource('ct_points', {
@@ -85,7 +87,7 @@ map.on('load', function() {
         "id": "ct_points_layer",
         "type": "circle",
         "source": "ct_points",
-	"minzoom": 7,
+	//"minzoom": 7,
         "maxzoom": 10,
         "paint": {
             // Size circle radius by earthquake magnitude and zoom level

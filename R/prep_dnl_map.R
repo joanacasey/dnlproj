@@ -132,6 +132,19 @@ for (i in udiv){
   print(fname)
   st_write(x,fname ,delete_dsn=TRUE)
 }
+
+########################################
+# POST PROCESS IN Tippecanoe & mapbox
+########################################
+# 
+# Create mbtiles using tippecanoe
+# tippecanoe -o ct_all_pts_4326.mbtiles -Z4 -z12 -B4 ct_all_pts_4326.geojson --force
+# tippecanoe -o ct_all_pts_4326_clust.mbtiles -Z4 -z12 -r1 --cluster-distance=10 --accumulate-attribute=mymean:mean ct_all_pts_4326.geojson --force
+#
+#  upload the output mbtiles file to mapbox
+#  reference the vector tileset created from the mbtiles in the html file
+
+
 ########################################
 # These ddata too big for R Leaflet
 ########################################

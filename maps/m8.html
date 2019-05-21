@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>DNL Map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+
+	</style>
+</head>
+<body>
+
+
+<div id='map'></div>
+
+<script>
+//mapboxgl.accessToken = 'pk.eyJ1IjoibHNjLW1hcGJveCIsImEiOiJjanQ3anpob3kwc3BjM3lwM2Fiem53azBuIn0.vD-F8hT9oRyX97C6-2DHMw';
+//mapboxgl.accessToken = 'pk.eyJ1IjoicGZyb250aWVyYSIsImEiOiJjaWV5cHdqYW4wbGZpczlrcmFnc3ZsZzd5In0.zx1S9ptljVYqhM9cjzhL_g';
+mapboxgl.accessToken = 'pk.eyJ1IjoicGZyb250aWVyYSIsImEiOiJjanZ3eXFidzA0aG9rNDlxcnVqbHEwMml6In0.Zngww0EQpekJEd57lWbsBQ';
+
+var catcolors = [['low', '#ffffbf'],
+                 ['med', '#2c7bb6'],
+                 ['high', '#d7191c']]
+
+var poly_paint =  {
+            	"fill-color": {  
+                  property: 'cat',
+                  type: 'categorical',
+                  stops: catcolors
+                  },
+            	  'fill-opacity': 0.5,
+                  'fill-outline-color': "#ffffff"
+        	}
+
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v10',
+    center: [-98, 38],
+    zoom: 3.75,
+    maxZoom: 12, 
+    minZoom: 4
+});
+
+//var mypolydata = ["ct_all_polys_4326_06", "ct_all_polys_4326_div_8"];
+var mypolydata = ["ct_all_polys_4326_06", "ct_all_polys_4326_34", "ct_all_polys_4326_42", "ct_all_polys_4326_div_3",
+		  "ct_all_polys_4326_div_7", "ct_all_polys_4326_12", "ct_all_polys_4326_36", "ct_all_polys_4326_48",
+		  "ct_all_polys_4326_div_4", "ct_all_polys_4326_div_8", "ct_all_polys_4326_17",	"ct_all_polys_4326_37",
+		  "ct_all_polys_4326_div_1", "ct_all_polys_4326_div_5",	"ct_all_polys_4326_div_9",
+		  "ct_all_polys_4326_26", "ct_all_polys_4326_39", "ct_all_polys_4326_div_2", "ct_all_polys_4326_div_6",	"ct_all_pts_4326" ];
+
+map.on('load', function() {
+   // ADD CENSUS TRACTS AS POINTS
+
+    //ADD Point Vector Tiles from Mapbox
+    map.addLayer({
+        'id': 'ct_points_vtlayer',
+        'type': 'circle',
+        'source': {
+            type: 'vector',
+            url: 'mapbox://pfrontiera.8rqbt6n5',
+        },
+        'source-layer': 'ct_all_pts_4326',
+        'minzoom': 4,
+	'maxzoom': 10,
+        'paint': {
+            // Size circle radius by earthquake magnitude and zoom level
+            "circle-radius": 3,
+            "circle-opacity": 0.5,
+            "circle-color": {
+                property: 'cat',
+                type: 'categorical',
+                stops: catcolors
+        }
+    }
+   });
+
+    // ADD POINTs for each census tract
+/*
+    map.addSource('ct_points', {
+        "type": "geojson",
+        "data": "https://raw.githubusercontent.com/dlab-geo/dnlproj/master/geofiles/ct_all_pts_4326.geojson"
+    });
+
+    map.addLayer({
+        "id": "ct_points_layer",
+        "type": "circle",
+        "source": "ct_points",
+	//"minzoom": 7,
+        "maxzoom": 10,
+        "paint": {
+            // Size circle radius by earthquake magnitude and zoom level
+            "circle-radius": 3,
+	    "circle-opacity": 0.5,
+	    "circle-color": { 
+		property: 'cat',
+		type: 'categorical',
+		stops: catcolors
+	}
+    }
+   });
+*/
+
+  // LOOP OVER ALL CT POLYGON DATA LAYERS
+   for (let i of mypolydata) {
+	var datanam = i;
+	var layernam = i + "_layer"
+	var datafile = "https://raw.githubusercontent.com/dlab-geo/dnlproj/master/geofiles/" + i + ".geojson";
+
+	// ADD THE DATA SOURCE
+	map.addSource(datanam, {
+		"type": "geojson",
+		"data": datafile
+	});
+
+	// ADD THE LAYER
+        map.addLayer({
+          "id": layernam,
+          "type": "fill",
+          "source": datanam,
+          "minzoom": 10,
+          "maxzoom": 12.5,
+          "paint": poly_paint
+       }, 'waterway-label');
+   }
+
+
+  }); //end map.on
+
+//========================================================================================
+// ADD POLYGON LAYER INTERACTIVITY
+//========================================================================================
+
+for (let i of mypolydata) {
+   var layernam = i + "_layer";
+
+   /// ADD POPUP
+   map.on('click', layernam, function (e) {
+	new mapboxgl.Popup()
+	.setLngLat(e.lngLat)
+	.setHTML("<b>Tract ID:</b> " + e.features[0].properties.GISJOIN + "</br> <b>Mean Value:</b> " + e.features[0].properties.mymean.toFixed(2))
+	.addTo(map);
+   });
+
+   /// MOUSE CURSOR
+   // Change the cursor to a pointer when the mouse is over the polys layer.
+   map.on('mouseenter', layernam, function () {
+      map.getCanvas().style.cursor = 'pointer';
+   });
+ 
+   // Change it back to a pointer when it leaves.
+   map.on('mouseleave', layernam, function () {
+     map.getCanvas().style.cursor = '';
+   });
+
+}
+
+</script>
+</body>
+</html>
