@@ -20,7 +20,7 @@ position: absolute;
 left: 30px;
 bottom: 100px;
 z-index: 1;
-max-height: 150px;
+max-height: 300px;
 }
  
 .legend h4 {
@@ -47,10 +47,25 @@ width: 10px;
 <div><span style='background-color: #d7191c;'></span>High (>58)</div>
 <div><span style='background-color: #2c7bb6;'></span>Medium (55 - 58)</div>
 <div><span style='background-color: #ffffbf;'></span>Low (< 55)</div>
+<div>
+<p>Zoom to: 
+</br>
+      <!-- After: http://personal.tcu.edu/kylewalker/maps/education -->
+      <a href="https://dlab-geo.github.io/dnlproj/index.html#11.01/37.80/-122.112">San Francisco</a> | 
+      <a href="https://dlab-geo.github.io/dnlproj/index.html#11.01/40.7770/-74.0066">New York</a> | 
+      <a href="https://dlab-geo.github.io/dnlproj/index.html#11.01/34.0807/-118.2724">Los Angeles</a> | 
+      <a href="https://dlab-geo.github.io/dnlproj/index.html#11.01/41.8845/-87.6138">Chicago</a><br> 
+      <a href="https://dlab-geo.github.io/dnlproj/index.html#11.01/32.8065/-97.1496">Dallas-Fort Worth</a> | 
+      <a href="https://dlab-geo.github.io/dnlproj/index.html#11.01/33.8486/-84.4986">Atlanta</a>
+    </p>
+</div>
+<p>
+&nbsp;
+</p>
 <p>
 <em><a href="https://github.com/dlab-geo/dnlproj" target="_blank">About this map</a></em>
+<p>
 </div>
-
 
 <script>
 //mapboxgl.accessToken = 'pk.eyJ1IjoibHNjLW1hcGJveCIsImEiOiJjanQ3anpob3kwc3BjM3lwM2Fiem53azBuIn0.vD-F8hT9oRyX97C6-2DHMw';
@@ -111,6 +126,7 @@ map.on('load', function() {
         'source-layer': 'ct_all_pts_4326',
         'minzoom': 3,
 	'maxzoom': 11,
+	'hash': true,  //allows us to set zoom & center in the URL
         'paint': {
             // Size circle radius by earthquake magnitude and zoom level
             "circle-radius": 4,
