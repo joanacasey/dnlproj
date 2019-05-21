@@ -99,7 +99,8 @@ var map = new mapboxgl.Map({
     center: [-96.416, 37.58],
     zoom: 3.75,
     maxZoom: 12, 
-    minZoom: 4
+    minZoom: 4,
+    hash: true  //allows us to set zoom & center in the URL
 });
 
 //Add zoom control to the map but without the navigation compass
@@ -126,7 +127,6 @@ map.on('load', function() {
         'source-layer': 'ct_all_pts_4326',
         'minzoom': 3,
 	'maxzoom': 11,
-	'hash': true,  //allows us to set zoom & center in the URL
         'paint': {
             // Size circle radius by earthquake magnitude and zoom level
             "circle-radius": 4,
