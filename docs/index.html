@@ -66,8 +66,16 @@ var poly_paint =  {
                   type: 'categorical',
                   stops: catcolors
                   },
-            	  'fill-opacity': 0.5,
-                  'fill-outline-color': "#ffffff"
+                  'fill-outline-color': "#ffffff",
+            	  //'fill-opacity': 0.5,
+   'fill-opacity': [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        10, 0.1,
+        13,0.65 
+        ]
+		  
         	}
 
 var map = new mapboxgl.Map({
@@ -99,14 +107,10 @@ map.on('load', function() {
         },
         'source-layer': 'ct_all_pts_4326',
         'minzoom': 3,
-	'maxzoom': 10,
+	'maxzoom': 11,
         'paint': {
             // Size circle radius by earthquake magnitude and zoom level
-            //"circle-radius": 4,
-            "circle-radius": {
-		'base': 5,
-		'stops': [[4,5],[10,3]]
-            },
+            "circle-radius": 4,
             "circle-opacity": 0.65,
             "circle-color": {
                 property: 'cat',
