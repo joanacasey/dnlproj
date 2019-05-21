@@ -139,9 +139,13 @@ for (i in udiv){
 # 
 # Create mbtiles using tippecanoe
 # tippecanoe -o ct_all_pts_4326.mbtiles -Z4 -z12 -B4 ct_all_pts_4326.geojson --force
-# tippecanoe -o ct_all_pts_4326_clust.mbtiles -Z4 -z12 -r1 --cluster-distance=10 --accumulate-attribute=mymean:mean ct_all_pts_4326.geojson --force
-#
+# tippecanoe -o ct_all_pts_4326_clust.mbtiles -Z4 -z12 -r1 -pi --cluster-distance=3 --accumulate-attribute=mymean:mean ct_all_pts_4326.geojson --force
 #  upload the output mbtiles file to mapbox
+#
+# counties
+# These were just uploated into tileset on mapbox
+
+# In html
 #  reference the vector tileset created from the mbtiles in the html file
 
 

@@ -87,6 +87,9 @@ var map = new mapboxgl.Map({
     minZoom: 4
 });
 
+//Add zoom control to the map but without the navigation compass
+map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'top-right');
+
 //var mypolydata = ["ct_all_polys_4326_06", "ct_all_polys_4326_div_8"];
 var mypolydata = ["ct_all_polys_4326_06", "ct_all_polys_4326_34", "ct_all_polys_4326_42", "ct_all_polys_4326_div_3",
 		  "ct_all_polys_4326_div_7", "ct_all_polys_4326_12", "ct_all_polys_4326_36", "ct_all_polys_4326_48",
